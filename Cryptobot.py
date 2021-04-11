@@ -4,9 +4,6 @@ import time
 import decimal
 import json
 
-#k = KrakenAPI(kraken_API)
-# df, last = k.get_ohlc_data("BCHUSD", ascending=True)
-
 def now():
     return decimal.Decimal(time.time())
 
@@ -35,7 +32,6 @@ def save_balance(data):
     with open('balance.json', 'w') as f:
         json.dump(data, f, indent=4)
 
-
 #get the price data for the crypto
 def get_crypto_data(pair, since):
     ret = k.query_public('OHLC', data = {'pair': pair, 'since': since})
@@ -45,15 +41,14 @@ def get_purchasing_price(name):
     trades = load_trades()
     return trades[name][-1]['price_usd']
 
-
 def load_trades():
     trades = {}
     with open('trades.json', 'r') as f:
         try:
             trades = json.load(f)
         except:
-                for crypto in pairs:
-                    trades[crypto] = []
+            for crypto in pairs:
+                trades[crypto] = []
     return trades
 
 def save_crypto_data(data):
@@ -121,7 +116,6 @@ def sell_crypto(crypto_data, name):
     balance = get_balance()
     analysis_data = clear_crypto_data(name)
     price = float(crypto_data[-1][4])
-    print(balance)
     amount = float(balance[name[:-4]])
     balance = update_balance(amount, name, price, True)
     add_order('sell',name,amount)
@@ -179,10 +173,7 @@ def bot(since, k, pairs):
                 crypto_data = get_crypto_data(pair, since)
                 check_data(pair, crypto_data, True)
 
-        time.sleep(10)
-
-
-
+        time.sleep(30)
 
 def check_data(name, crypto_data, should_buy):
 #TODO: don't repeat-print if list too short
@@ -196,14 +187,11 @@ def check_data(name, crypto_data, should_buy):
         high += float(b[2])
         low += float(b[3])
         close += float(b[4])
-    #OBS!!! FIX this
     #adds every moving average into the same array
     mva[name]['high'].append(high / 100)
     mva[name]['low'].append(low / 100)
     mva[name]['close'].append(close / 100)
-    #print(name)
     save_crypto_data(mva)
-    #print(json.dumps(mva, indent=4))
     if should_buy:
         try_buy(mva[name], name, crypto_data)
     else:
@@ -241,7 +229,7 @@ def check_opportunity(data, name, sell, buy):
                 trends.append('NOTREND')
             previous_value = mva
 
-    print(trends)
+    print(name + ': ' + str(trends))
     areas = []
     for mva in reversed(data['close'][-5:]):
         area = 0
@@ -273,7 +261,7 @@ def try_sell(data, name, crypto_data):
 
 
 def get_pairs():
-    return ['XETHZUSD', 'XXBTZUSD', 'MANAUSD', 'GRTUSD', 'LSKUSD']
+    return ['XETHZUSD', 'XXBTZUSD', 'MANAUSD', 'GRTUSD', 'LSKUSD','XDGUSD']
 
 if __name__ == '__main__':
     k = krakenex.API()
