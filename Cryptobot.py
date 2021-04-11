@@ -73,24 +73,30 @@ def load_crypto_data_from_file():
 def make_crypto_data(data):
     for name in get_pairs():
         data[name] = {
-            'high' : [],
-            'low' : [],
-            'close' : [],
-            'prices' : []
-            }
+                    'high' : [],
+                    'low' : [],
+                    'close' : [],
+                    'prices' : []
+                    }
     return data
 
 def save_trade(close, name, bought, sold, amount):
     #saves trades to json file
+    balance = get_balance()
+    try:
+        coin = balance[name[:-4]]
+    except:
+        coin = 0.000
     trade = {
-        'time_stamp' : str(int(time.time())),
-        'price_usd' : close,
-        'bought' : bought,
-        'sold' : sold,
-        'amount' : amount
-        }
+                'time_stamp' : str(int(time.time())),
+                'price_usd' : close,
+                'bought' : bought,
+                'sold' : sold,
+                'amount' : amount,
+                'new balance' : coin
+            }
 
-    print('TRADE:')
+    print('TRADE: ' + name)
     print(json.dumps(trade, indent=4))
     trades = load_trades()
     trades[name].append(trade)
@@ -106,7 +112,7 @@ def buy_crypto(crypto_data, name):
     funds = get_available_funds()
     amount = funds * (1/ price)
     balance = update_balance(amount, name, price, False)
-    res_add_order = k.query_private("AddOrder", data = {'type' : 'buy', 'trading_agreement' : 'agree','pair' : name, 'ordertype' : 'market', 'volume' : amount})
+    add_order('buy',name,amount)
     #amount = get_balance()[name[:-4]]
     save_trade(price, name, True, False, amount)
     print('buy')
@@ -115,11 +121,22 @@ def sell_crypto(crypto_data, name):
     balance = get_balance()
     analysis_data = clear_crypto_data(name)
     price = float(crypto_data[-1][4])
+    print(balance)
     amount = float(balance[name[:-4]])
     balance = update_balance(amount, name, price, True)
-    res_add_order = k.query_private("AddOrder", data = {'type' : 'sell', 'trading_agreement' : 'agree','pair' : name, 'ordertype' : 'market', 'volume' : amount})
+    add_order('sell',name,amount)
     save_trade(price, name, False, True, amount)
     print('sell')
+
+def add_order(type, name, amount):
+    data = {
+            'type' : type,
+            'trading_agreement' : 'agree',
+            'pair' : name,
+            'ordertype' : 'market',
+            'volume' : amount
+            }
+    res_add_order = k.query_private("AddOrder", data = data)
 
 
 def clear_crypto_data(name):
@@ -256,7 +273,7 @@ def try_sell(data, name, crypto_data):
 
 
 def get_pairs():
-    return ['XETHZUSD', 'XXBTZUSD', 'MANAUSD', 'GRTUSD', 'LSKUSD', 'SCUSD']
+    return ['XETHZUSD', 'XXBTZUSD', 'MANAUSD', 'GRTUSD', 'LSKUSD']
 
 if __name__ == '__main__':
     k = krakenex.API()
