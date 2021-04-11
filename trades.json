@@ -1,0 +1,306 @@
+{
+    "XETHZUSD": [
+        {
+            "time_stamp": "1618133335",
+            "price_usd": 2135.81,
+            "bought": true,
+            "sold": false,
+            "amount": 0.07803440693070389
+        },
+        {
+            "time_stamp": "1618133448",
+            "price_usd": 2134.4,
+            "bought": false,
+            "sold": true,
+            "amount": 0.07803440693070389
+        },
+        {
+            "time_stamp": "1618138538",
+            "price_usd": 2137.0,
+            "bought": true,
+            "sold": false,
+            "amount": 0.04097309312119794
+        },
+        {
+            "time_stamp": "1618138550",
+            "price_usd": 2136.55,
+            "bought": false,
+            "sold": true,
+            "amount": 0.04097309312119794
+        },
+        {
+            "time_stamp": "1618138703",
+            "price_usd": 2139.45,
+            "bought": true,
+            "sold": false,
+            "amount": 0.020463086307228495
+        },
+        {
+            "time_stamp": "1618138714",
+            "price_usd": 2139.45,
+            "bought": false,
+            "sold": true,
+            "amount": 0.020463086307228495
+        },
+        {
+            "time_stamp": "1618138908",
+            "price_usd": 2142.91,
+            "bought": true,
+            "sold": false,
+            "amount": 0.020430046058863883
+        },
+        {
+            "time_stamp": "1618138920",
+            "price_usd": 2142.74,
+            "bought": false,
+            "sold": true,
+            "amount": 0.020430046058863883
+        },
+        {
+            "time_stamp": "1618138932",
+            "price_usd": 2143.43,
+            "bought": true,
+            "sold": false,
+            "amount": 0.013616186344965779
+        },
+        {
+            "time_stamp": "1618139490",
+            "price_usd": 2143.4,
+            "bought": false,
+            "sold": true,
+            "amount": 0.013616186344965779
+        },
+        {
+            "time_stamp": "1618140032",
+            "price_usd": 2142.33,
+            "bought": true,
+            "sold": false,
+            "amount": 0.010215109139940462
+        },
+        {
+            "time_stamp": "1618140043",
+            "price_usd": 2142.04,
+            "bought": false,
+            "sold": true,
+            "amount": 0.010215109139940462
+        },
+        {
+            "time_stamp": "1618140152",
+            "price_usd": 2144.06,
+            "bought": true,
+            "sold": false,
+            "amount": 0.010206521351247633
+        },
+        {
+            "time_stamp": "1618140164",
+            "price_usd": 2144.72,
+            "bought": false,
+            "sold": true,
+            "amount": 0.010206521351247633
+        }
+    ],
+    "XXBTZUSD": [
+        {
+            "time_stamp": "1618139040",
+            "price_usd": 59681.3,
+            "bought": true,
+            "sold": false,
+            "amount": 0.00048901988223095
+        },
+        {
+            "time_stamp": "1618139444",
+            "price_usd": 59665.1,
+            "bought": false,
+            "sold": true,
+            "amount": 0.00048901988223095
+        },
+        {
+            "time_stamp": "1618139595",
+            "price_usd": 59635.1,
+            "bought": true,
+            "sold": false,
+            "amount": 0.00036701412542482334
+        },
+        {
+            "time_stamp": "1618139607",
+            "price_usd": 59604.7,
+            "bought": false,
+            "sold": true,
+            "amount": 0.00036701412542482334
+        },
+        {
+            "time_stamp": "1618140068",
+            "price_usd": 59579.8,
+            "bought": true,
+            "sold": false,
+            "amount": 0.00036729552916183004
+        }
+    ],
+    "MANAUSD": [
+        {
+            "time_stamp": "1618137014",
+            "price_usd": 1.07975,
+            "bought": true,
+            "sold": false,
+            "amount": 154.35671837616732
+        },
+        {
+            "time_stamp": "1618137026",
+            "price_usd": 1.08041,
+            "bought": false,
+            "sold": true,
+            "amount": 154.35671837616732
+        },
+        {
+            "time_stamp": "1618137037",
+            "price_usd": 1.08041,
+            "bought": true,
+            "sold": false,
+            "amount": 154.2781406185504
+        },
+        {
+            "time_stamp": "1618137049",
+            "price_usd": 1.08041,
+            "bought": false,
+            "sold": true,
+            "amount": 154.2781406185504
+        },
+        {
+            "time_stamp": "1618137061",
+            "price_usd": 1.08126,
+            "bought": true,
+            "sold": false,
+            "amount": 154.15685950251375
+        },
+        {
+            "time_stamp": "1618137074",
+            "price_usd": 1.08126,
+            "bought": false,
+            "sold": true,
+            "amount": 154.15685950251375
+        },
+        {
+            "time_stamp": "1618137086",
+            "price_usd": 1.08126,
+            "bought": true,
+            "sold": false,
+            "amount": 154.15685950251375
+        },
+        {
+            "time_stamp": "1618137097",
+            "price_usd": 1.08126,
+            "bought": false,
+            "sold": true,
+            "amount": 154.15685950251375
+        },
+        {
+            "time_stamp": "1618137156",
+            "price_usd": 1.09264,
+            "bought": true,
+            "sold": false,
+            "amount": 152.55129402702448
+        },
+        {
+            "time_stamp": "1618137168",
+            "price_usd": 1.0931,
+            "bought": false,
+            "sold": true,
+            "amount": 152.55129402702448
+        },
+        {
+            "time_stamp": "1618137180",
+            "price_usd": 1.095,
+            "bought": true,
+            "sold": false,
+            "amount": 152.23318858894686
+        },
+        {
+            "time_stamp": "1618137191",
+            "price_usd": 1.095,
+            "bought": false,
+            "sold": true,
+            "amount": 152.23318858894686
+        },
+        {
+            "time_stamp": "1618137203",
+            "price_usd": 1.0951,
+            "bought": true,
+            "sold": false,
+            "amount": 152.219287284172
+        },
+        {
+            "time_stamp": "1618137215",
+            "price_usd": 1.09418,
+            "bought": false,
+            "sold": true,
+            "amount": 152.219287284172
+        },
+        {
+            "time_stamp": "1618137517",
+            "price_usd": 1.096,
+            "bought": true,
+            "sold": false,
+            "amount": 152.07299380855824
+        },
+        {
+            "time_stamp": "1618137549",
+            "price_usd": 1.096,
+            "bought": false,
+            "sold": true,
+            "amount": 152.07299380855824
+        },
+        {
+            "time_stamp": "1618137855",
+            "price_usd": 1.09187,
+            "bought": true,
+            "sold": false,
+            "amount": 152.64821014789294
+        },
+        {
+            "time_stamp": "1618137980",
+            "price_usd": 1.09161,
+            "bought": false,
+            "sold": true,
+            "amount": 152.64821014789294
+        },
+        {
+            "time_stamp": "1618138739",
+            "price_usd": 1.08994,
+            "bought": true,
+            "sold": false,
+            "amount": 26.77807952731343
+        },
+        {
+            "time_stamp": "1618138751",
+            "price_usd": 1.08904,
+            "bought": false,
+            "sold": true,
+            "amount": 26.77807952731343
+        },
+        {
+            "time_stamp": "1618140080",
+            "price_usd": 1.09791,
+            "bought": true,
+            "sold": false,
+            "amount": 19.931865242466145
+        },
+        {
+            "time_stamp": "1618140212",
+            "price_usd": 1.09409,
+            "bought": false,
+            "sold": true,
+            "amount": 19.931865242466145
+        }
+    ],
+    "GRTUSD": [],
+    "LSKUSD": [],
+    "SCUSD": [
+        {
+            "time_stamp": "1618140118",
+            "price_usd": 0.02713,
+            "bought": true,
+            "sold": false,
+            "amount": 806.612391019388
+        }
+    ]
+}
