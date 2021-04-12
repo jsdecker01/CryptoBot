@@ -14,8 +14,11 @@ def get_balance():
         except:
     #change this for the actual query to the database once the script is working
             #return {'USD' : '1000.0', 'EUR.HOLD': '0.0000'}
-            print(k.query_private('Balance')['result'])
-            return k.query_private('Balance')['result']
+            balance = k.query_private('Balance')['result']
+            for pair in pairs:
+                if not pair[:-len(pairdict[pair])] in balance:
+                    balance[pair[:-len(pairdict[pair])]] = "0.00"
+            return balance
 
 def update_balance(amount, name, price, sold):
     balance = get_balance()
@@ -35,6 +38,7 @@ def save_balance(data):
 #get the price data for the crypto
 def get_crypto_data(pair, since):
     ret = k.query_public('OHLC', data = {'pair': pair, 'since': since})
+    #print(pair)
     return ret['result'][pair]
 
 def get_purchasing_price(name):
@@ -83,11 +87,12 @@ def save_trade(close, name, bought, sold, amount):
     except:
         coin = 0.000
     trade = {
-                'time_stamp' : str(int(time.time())),
-                'price_usd' : close,
-                'bought' : bought,
-                'amount' : amount,
-                'new balance' : coin
+            'time_stamp' : str(int(time.time())),
+            'price_usd' : close,
+            'bought' : bought,
+            'sold' : sold,
+            'amount' : amount,
+            'new balance' : coin
             }
     print('TRADE: ' + name)
     print(json.dumps(trade, indent=4))
@@ -99,14 +104,12 @@ def save_trade(close, name, bought, sold, amount):
 def buy_crypto(crypto_data, name):
 #executes trade
     analysis_data = clear_crypto_data(name)
-    #make sure to make the trade before the next line of code
     #find what we can buy for
     price = float(crypto_data[-1][4])
     funds = get_available_funds()
     amount = funds * (1/ price)
     balance = update_balance(amount, name, price, False)
     add_order('buy',name,amount)
-    #amount = get_balance()[name[:-4]]
     save_trade(price, name, True, False, amount)
     print('buy')
 
@@ -120,6 +123,7 @@ def sell_crypto(crypto_data, name):
     save_trade(price, name, False, True, amount)
     print('sell')
 
+#implements trade
 def add_order(type, name, amount):
     data = {
             'type' : type,
@@ -263,11 +267,12 @@ def get_pairs():
     return {
             'XETHZUSD' : 'ZUSD',
             'XXBTZUSD' : 'ZUSD',
-            'MANAUSD' : 'USD',
+            #'MANAUSD' : 'USD',
             'GRTUSD' : 'USD',
             'LSKUSD' : 'USD',
             'XDGUSD' : 'USD',
-            'XXRPZUSD' : 'ZUSD'
+            'XXRPZUSD' : 'ZUSD',
+            'XLTCZUSD' : 'ZUSD'
             }
 
 if __name__ == '__main__':
@@ -278,5 +283,12 @@ if __name__ == '__main__':
     since = str(int(time.time() - 43200))
     mva = load_crypto_data_from_file()
     balance = get_balance()
+    #rename XXDG to XDG
+    if "XXDG" in balance:
+        balance["XDG"] = balance.pop("XXDG")
     save_balance(balance)
+    #check for existing balances and save them to trades as 'buy' in order for next trade to be 'sell'
+    for pair in pairs:
+        if float(balance[pair[:-len(pairdict[pair])]]) > 0:
+            save_trade(float(balance[pair[:-len(pairdict[pair])]]), pair, True, False, 1.0)
     bot(since, k, pairs)
