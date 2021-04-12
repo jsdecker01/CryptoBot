@@ -3,30 +3,22 @@
     "XXBTZUSD": [],
     "MANAUSD": [
         {
-            "time_stamp": "1618180508",
-            "price_usd": 1.08639,
+            "time_stamp": "1618219621",
+            "price_usd": 1.13582,
             "bought": true,
             "sold": false,
-            "amount": 19.509660435018734,
-            "new balance": "19.509660435018734"
-        },
-        {
-            "time_stamp": "1618180573",
-            "price_usd": 1.08595,
-            "bought": false,
-            "sold": true,
-            "amount": 19.509660435018734,
-            "new balance": 0.0
+            "amount": 18.660615238330017,
+            "new balance": "18.660615238330017"
         }
     ],
     "GRTUSD": [
         {
-            "time_stamp": "1618180573",
-            "price_usd": 1.85872,
+            "time_stamp": "1618219525",
+            "price_usd": 2.03402,
             "bought": true,
             "sold": false,
-            "amount": 11.400753139098033,
-            "new balance": "11.400753139098033"
+            "amount": 10.420300685342328,
+            "new balance": "10.420300685342328"
         }
     ],
     "LSKUSD": [],

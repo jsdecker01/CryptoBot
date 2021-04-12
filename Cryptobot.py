@@ -116,6 +116,7 @@ def sell_crypto(crypto_data, name):
     balance = get_balance()
     analysis_data = clear_crypto_data(name)
     price = float(crypto_data[-1][4])
+    print(balance[name])
     amount = float(balance[name[:-4]])
     balance = update_balance(amount, name, price, True)
     add_order('sell',name,amount)
@@ -150,7 +151,7 @@ def delete_entries(data, key):
 def get_available_funds():
     balance = get_balance()
     money = float(balance['ZUSD'])
-    cryptos_not_owned = 8 - (len(balance) - 2)
+    cryptos_not_owned = total_crypto_options - (len(balance) - 4)
     funds = money / cryptos_not_owned
     return funds
 
@@ -176,7 +177,6 @@ def bot(since, k, pairs):
         time.sleep(30)
 
 def check_data(name, crypto_data, should_buy):
-#TODO: don't repeat-print if list too short
     high = 0
     low = 0
     close = 0
@@ -259,7 +259,6 @@ def try_sell(data, name, crypto_data):
     if make_trade:
         sell_crypto(crypto_data, name)
 
-
 def get_pairs():
     return ['XETHZUSD', 'XXBTZUSD', 'MANAUSD', 'GRTUSD', 'LSKUSD','XDGUSD']
 
@@ -267,6 +266,7 @@ if __name__ == '__main__':
     k = krakenex.API()
     k.load_key('kraken.key')
     pairs = get_pairs()
+    total_crypto_options = len(pairs)
     since = str(int(time.time() - 43200))
     mva = load_crypto_data_from_file()
     bot(since, k, pairs)
