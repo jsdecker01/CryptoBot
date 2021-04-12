@@ -13,18 +13,18 @@ def get_balance():
             return json.load(f)
         except:
     #change this for the actual query to the database once the script is working
-            #return {'ZUSD' : '1000.0', 'EUR.HOLD': '0.0000'}
+            #return {'USD' : '1000.0', 'EUR.HOLD': '0.0000'}
             print(k.query_private('Balance')['result'])
             return k.query_private('Balance')['result']
 
 def update_balance(amount, name, price, sold):
     balance = get_balance()
     if sold:
-        balance.pop(name[:-4], None)
+        balance.pop(name[:-len(pairdict[name])], None)
         balance['ZUSD'] = str(float(balance['ZUSD']) + amount*price)
     else:
         balance['ZUSD'] = str(float(balance['ZUSD']) - amount*price)
-        balance[name[:-4]] = str(amount)
+        balance[name[:-len(pairdict[name])]] = str(amount)
     save_balance(balance)
     return balance
 
@@ -66,7 +66,7 @@ def load_crypto_data_from_file():
     return data
 
 def make_crypto_data(data):
-    for name in get_pairs():
+    for name in pairs:
         data[name] = {
                     'high' : [],
                     'low' : [],
@@ -79,18 +79,16 @@ def save_trade(close, name, bought, sold, amount):
     #saves trades to json file
     balance = get_balance()
     try:
-        coin = balance[name[:-4]]
+        coin = balance[name[:-len(pairdict[name])]]
     except:
         coin = 0.000
     trade = {
                 'time_stamp' : str(int(time.time())),
                 'price_usd' : close,
                 'bought' : bought,
-                'sold' : sold,
                 'amount' : amount,
                 'new balance' : coin
             }
-
     print('TRADE: ' + name)
     print(json.dumps(trade, indent=4))
     trades = load_trades()
@@ -116,8 +114,7 @@ def sell_crypto(crypto_data, name):
     balance = get_balance()
     analysis_data = clear_crypto_data(name)
     price = float(crypto_data[-1][4])
-    print(balance[name])
-    amount = float(balance[name[:-4]])
+    amount = float(balance[name[:-len(pairdict[name])]])
     balance = update_balance(amount, name, price, True)
     add_order('sell',name,amount)
     save_trade(price, name, False, True, amount)
@@ -131,8 +128,8 @@ def add_order(type, name, amount):
             'ordertype' : 'market',
             'volume' : amount
             }
+    print(type, name, amount)
     res_add_order = k.query_private("AddOrder", data = data)
-
 
 def clear_crypto_data(name):
     data = load_crypto_data_from_file()
@@ -147,11 +144,14 @@ def delete_entries(data, key):
         clean_array.append(entry)
     return clean_array
 
-
 def get_available_funds():
     balance = get_balance()
     money = float(balance['ZUSD'])
-    cryptos_not_owned = total_crypto_options - (len(balance) - 4)
+    cryptos_owned = 0
+    for crypto in balance:
+        if float(balance[crypto]) > 0:
+            cryptos_owned += 1
+    cryptos_not_owned = len(balance) - cryptos_owned
     funds = money / cryptos_not_owned
     return funds
 
@@ -260,13 +260,23 @@ def try_sell(data, name, crypto_data):
         sell_crypto(crypto_data, name)
 
 def get_pairs():
-    return ['XETHZUSD', 'XXBTZUSD', 'MANAUSD', 'GRTUSD', 'LSKUSD','XDGUSD']
+    return {
+            'XETHZUSD' : 'ZUSD',
+            'XXBTZUSD' : 'ZUSD',
+            'MANAUSD' : 'USD',
+            'GRTUSD' : 'USD',
+            'LSKUSD' : 'USD',
+            'XDGUSD' : 'USD',
+            'XXRPZUSD' : 'ZUSD'
+            }
 
 if __name__ == '__main__':
     k = krakenex.API()
     k.load_key('kraken.key')
-    pairs = get_pairs()
-    total_crypto_options = len(pairs)
+    pairdict = get_pairs()
+    pairs = list(pairdict.keys())
     since = str(int(time.time() - 43200))
     mva = load_crypto_data_from_file()
+    balance = get_balance()
+    save_balance(balance)
     bot(since, k, pairs)
