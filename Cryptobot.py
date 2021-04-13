@@ -55,10 +55,6 @@ def load_trades():
                 trades[crypto] = []
     return trades
 
-def save_crypto_data(data):
-    with open('data.json', 'w') as f:
-        json.dump(data, f, indent=4)
-
 def load_crypto_data_from_file():
     data = {}
     with open('data.json', 'r') as f:
@@ -78,6 +74,10 @@ def make_crypto_data(data):
                     'prices' : []
                     }
     return data
+
+def save_crypto_data(data):
+    with open('data.json', 'w') as f:
+        json.dump(data, f, indent=4)
 
 def save_trade(close, name, bought, sold, amount):
     #saves trades to json file
@@ -159,10 +159,10 @@ def get_available_funds():
     funds = money / cryptos_not_owned
     return funds
 
-def bot(since, k, pairs):
+def bot(k, pairs):
     while True:
         #comment out to track the same "since"
-        #since = ret['result']['last']
+        since = str(int(time.time() - 300))
         for pair in pairs:
             trades = load_trades()
 
@@ -184,22 +184,22 @@ def check_data(name, crypto_data, should_buy):
     high = 0
     low = 0
     close = 0
-    for b in crypto_data[-100:]:
-        if b not in mva[name]['prices']:
-            mva[name]['prices'].append(b)
+    for b in crypto_data[-5:]:
+        if b not in historical_data[name]['prices']:
+            historical_data[name]['prices'].append(b)
 
         high += float(b[2])
         low += float(b[3])
         close += float(b[4])
-    #adds every moving average into the same array
-    mva[name]['high'].append(high / 100)
-    mva[name]['low'].append(low / 100)
-    mva[name]['close'].append(close / 100)
-    save_crypto_data(mva)
+    #adds every moving average into data set
+    historical_data[name]['high'].append(high / 5)
+    historical_data[name]['low'].append(low / 5)
+    historical_data[name]['close'].append(close / 5)
+    save_crypto_data(historical_data)
     if should_buy:
-        try_buy(mva[name], name, crypto_data)
+        try_buy(historical_data[name], name, crypto_data)
     else:
-        try_sell(mva[name],name, crypto_data)
+        try_sell(historical_data[name],name, crypto_data)
 
 def try_buy(data, name, crypto_data):
     #analyze the data to see if it is a good opportunity to buy
@@ -207,68 +207,98 @@ def try_buy(data, name, crypto_data):
     if make_trade:
         buy_crypto(crypto_data, name)
 
-def check_opportunity(data, name, sell, buy):
-    #calculate percentage increase of each point
-    count = 0
-    previous_value = 0
-    trends = []
-    for mva in data['close'][-10:]:
-        if previous_value == 0:
-            previous_value = mva
-        else:
-            if mva/previous_value > 1:
-                #uptrend
-                if count < 1:
-                    count = 1
-                else:
-                    count += 1
-                trends.append('UPTREND')
-            elif mva/previous_value < 1:
-                trends.append('DOWNTREND')
-                if count > 0:
-                    count = -1
-                else:
-                    count -= 1
-            else:
-                trends.append('NOTREND')
-            previous_value = mva
-
-    print(name + ': ' + str(trends))
-    areas = []
-    for mva in reversed(data['close'][-5:]):
-        area = 0
-        price = float(data['prices'][-1][3])
-        if sell:
-            purchase_price = float(get_purchasing_price(name))
-            if price >= (purchase_price * 1.02):
-                print('Should sell with 10% profit')
-                return True
-            if price < purchase_price:
-                print('Selling at a loss')
-                return True
-        areas.append(mva/price)
-
-    if buy:
-        counter = 0
-        if count >= 5:
-            for area in areas:
-                counter += area
-            if counter / 3 >= 1.05:
-                return True
-    return False
-
 def try_sell(data, name, crypto_data):
     #analyse the data to see if it is a good opportunity to sell
     make_trade = check_opportunity(data, name, True, False)
     if make_trade:
         sell_crypto(crypto_data, name)
 
+def check_opportunity(data, name, sell, buy):
+    #calculate percentage increase of each point
+    count = 0
+    previous_value = 0
+    trends = []
+    #for data in data['close'][-60:]:
+    #    if previous_value == 0:
+    #        previous_value = data
+    #    else:
+    #        if data/previous_value > 1:
+    #            #uptrend
+    #            if count < 1:
+    #                count = 1
+    #            else:
+    #                count += 1
+    #            trends.append('UPTREND')
+    #        elif data/previous_value < 1:
+    #            trends.append('DOWNTREND')
+    #            if count > 0:
+    #                count -= 1
+    #        else:
+    #            trends.append('NOTREND')
+    #        previous_value = data
+
+    #check if under 5 data points exist, and use earliest data point if so.
+    if len(data['close']) > 5:
+        first_data_point = -5
+    else:
+        first_data_point = 0
+    print(name, 'Previous Moving Average: ' + str(data['close'][first_data_point]), 'Current Moving Average: ' + str(data['close'][-1]))
+    #check trends
+    if data['close'][-1] > data['close'][first_data_point]:
+        trends.append('UPTREND')
+    elif data['close'][-1] < data['close'][first_data_point]:
+        trends.append('DOWNTREND')
+    else:
+        trends.append('NOTREND')
+    print(name + ': ' + str(trends))
+
+    if trends[-1] == 'UPTREND':
+        price = float(data['prices'][-1][4])
+        print('Current Price: ' + str(price), 'Current Moving Average: ' + str(data['close'][-1]))
+        #only buy if price is at least 0.1% higher than current moving average
+        if buy:
+            print(price/(data['close'][-1] * 1.001))
+            if price >= data['close'][-1] * 1.001:
+                return True
+        #only sell if price is at least 0.1% lower than current moving average
+        if sell:
+            if price < data['close'][-1] * 0.999:
+                purchase_price = float(get_purchasing_price(name))
+                print('Current Price: ' + str(price), 'Purchase Price: ' + str(purchase_price))
+                if price > purchase_price:
+                    print('Selling at a profit :)')
+                elif price < purchase_price:
+                    print('Selling at a loss :(')
+                return True
+    #areas = []
+    #for data in reversed(data['close'][-5:]):
+    #    area = 0
+    #    price = float(data['prices'][-1][3])
+    #    if sell:
+    #        purchase_price = float(get_purchasing_price(name))
+    #        if price > purchase_price:
+    #            print('Selling at a profit')
+    #            return True
+    #        if price < purchase_price:
+    #            print('Selling at a loss')
+    #            return True
+    #    areas.append(data/price)
+
+    #if buy:
+    #    counter = 0
+    #    if count >= 5:
+    #        for area in areas:
+    #            counter += area
+    #        if counter / 3 >= 1.05:
+    #            return True
+    return False
+
 def get_pairs():
     return {
             'XETHZUSD' : 'ZUSD',
             'XXBTZUSD' : 'ZUSD',
             #'MANAUSD' : 'USD',
-            'GRTUSD' : 'USD',
+            #'GRTUSD' : 'USD',
             'LSKUSD' : 'USD',
             'XDGUSD' : 'USD',
             'XXRPZUSD' : 'ZUSD',
@@ -280,8 +310,7 @@ if __name__ == '__main__':
     k.load_key('kraken.key')
     pairdict = get_pairs()
     pairs = list(pairdict.keys())
-    since = str(int(time.time() - 43200))
-    mva = load_crypto_data_from_file()
+    historical_data = load_crypto_data_from_file()
     balance = get_balance()
     #rename XXDG to XDG
     if "XXDG" in balance:
@@ -291,4 +320,4 @@ if __name__ == '__main__':
     for pair in pairs:
         if float(balance[pair[:-len(pairdict[pair])]]) > 0:
             save_trade(float(balance[pair[:-len(pairdict[pair])]]), pair, True, False, 1.0)
-    bot(since, k, pairs)
+    bot(k, pairs)

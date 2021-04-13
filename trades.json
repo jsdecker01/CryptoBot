@@ -1,141 +1,17 @@
 {
     "XETHZUSD": [],
-    "XXBTZUSD": [
-        {
-            "time_stamp": "1618267790",
-            "price_usd": 59953.1,
-            "bought": true,
-            "sold": false,
-            "amount": 0.000665201277011002,
-            "new balance": "0.000665201277011002"
-        }
-    ],
-    "GRTUSD": [],
+    "XXBTZUSD": [],
     "LSKUSD": [],
     "XDGUSD": [
         {
-            "time_stamp": "1618266664",
-            "price_usd": 3e-08,
+            "time_stamp": "1618356489",
+            "price_usd": 0.0916157,
             "bought": true,
             "sold": false,
-            "amount": 1.0,
-            "new balance": "0.00000003"
-        },
-        {
-            "time_stamp": "1618266666",
-            "price_usd": 0.0713971,
-            "bought": false,
-            "sold": true,
-            "amount": 3e-08,
-            "new balance": 0.0
-        },
-        {
-            "time_stamp": "1618266890",
-            "price_usd": 0.0714631,
-            "bought": true,
-            "sold": false,
-            "amount": 502.3592595376878,
-            "new balance": "502.3592595376878"
-        },
-        {
-            "time_stamp": "1618266922",
-            "price_usd": 0.0714005,
-            "bought": false,
-            "sold": true,
-            "amount": 502.3592595376878,
-            "new balance": 0.0
-        },
-        {
-            "time_stamp": "1618267532",
-            "price_usd": 0.0717292,
-            "bought": true,
-            "sold": false,
-            "amount": 667.0964562400657,
-            "new balance": "667.0964562400657"
-        },
-        {
-            "time_stamp": "1618267597",
-            "price_usd": 0.0717966,
-            "bought": false,
-            "sold": true,
-            "amount": 667.0964562400657,
-            "new balance": 0.0
-        },
-        {
-            "time_stamp": "1618267629",
-            "price_usd": 0.0716796,
-            "bought": true,
-            "sold": false,
-            "amount": 667.6626103632464,
-            "new balance": "667.6626103632464"
-        },
-        {
-            "time_stamp": "1618267662",
-            "price_usd": 0.071673,
-            "bought": false,
-            "sold": true,
-            "amount": 667.6626103632464,
-            "new balance": 0.0
+            "amount": 333.7352537707935,
+            "new balance": "333.7352537707935"
         }
     ],
-    "XXRPZUSD": [
-        {
-            "time_stamp": "1618266858",
-            "price_usd": 1.39764,
-            "bought": true,
-            "sold": false,
-            "amount": 25.686263988056822,
-            "new balance": "25.686263988056822"
-        },
-        {
-            "time_stamp": "1618266890",
-            "price_usd": 1.397,
-            "bought": false,
-            "sold": true,
-            "amount": 25.686263988056822,
-            "new balance": 0.0
-        },
-        {
-            "time_stamp": "1618267339",
-            "price_usd": 1.3915,
-            "bought": true,
-            "sold": false,
-            "amount": 29.48034629675504,
-            "new balance": "29.48034629675504"
-        },
-        {
-            "time_stamp": "1618267469",
-            "price_usd": 1.3898,
-            "bought": false,
-            "sold": true,
-            "amount": 29.48034629675504,
-            "new balance": 0.0
-        }
-    ],
-    "XLTCZUSD": [
-        {
-            "time_stamp": "1618267340",
-            "price_usd": 246.62,
-            "bought": true,
-            "sold": false,
-            "amount": 0.14257412284463536,
-            "new balance": "0.14257412284463536"
-        },
-        {
-            "time_stamp": "1618267373",
-            "price_usd": 246.61,
-            "bought": false,
-            "sold": true,
-            "amount": 0.14257412284463536,
-            "new balance": 0.0
-        },
-        {
-            "time_stamp": "1618267759",
-            "price_usd": 246.22,
-            "bought": true,
-            "sold": false,
-            "amount": 0.19436704742475003,
-            "new balance": "0.19436704742475003"
-        }
-    ]
+    "XXRPZUSD": [],
+    "XLTCZUSD": []
 }
